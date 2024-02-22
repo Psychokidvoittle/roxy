@@ -1,20 +1,63 @@
-﻿// main.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
+﻿
 #include <iostream>
+#include <cstring>
+#include <cctype>
+#include <Windows.h>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+
+int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    setlocale(0, "");
+    std::cout << "Введите строку: ";
+    char line[100];
+    std::cin >> line;
+
+    int length = strlen(line);
+    bool isPalindrome = true;
+
+    for (int i = 0; i < length / 2; i++) {
+        if (tolower(line[i]) != tolower(line[length - i - 1])) {
+            isPalindrome = false;
+            break;
+        }
+    }
+
+    if (isPalindrome) {
+        std::cout << "Строка является палиндромом." << std::endl;
+    }
+    else {
+        char side;
+        std::cout << "Выберите сторону (l - слева, r - справа): ";
+        std::cin >> side;
+
+        int middle = length / 2;
+        if (length % 2 == 0) {
+            line[middle - 1] = toupper(line[middle - 1]);
+            line[middle] = toupper(line[middle]);
+        }
+        else {
+            line[middle] = toupper(line[middle]);
+        }
+
+        if (side == 'l') {
+            for (int i = 0; i < length / 2; i++) {
+                if (tolower(line[i]) != tolower(line[length - i - 1])) {
+                    line[length - i - 1] = line[i];
+                }
+            }
+        }
+        else if (side == 'r') {
+            for (int i = 0; i < length / 2; i++) {
+                if (tolower(line[i]) != tolower(line[length - i - 1])) {
+                    line[i] = line[length - i - 1];
+                }
+            }
+        }
+        else {
+            std::cout << "Неправильный выбор стороны." << std::endl;
+        }
+
+        std::cout << "Новый палиндром: " << line << std::endl;
+    }
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
